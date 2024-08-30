@@ -1,0 +1,12 @@
+﻿@{
+    Layout = "_Layout";
+    <script>
+        @if (TempData["Success"] != null)
+        {
+            <text>
+                toastr.success('@TempData["Success"]');
+            </text>
+        }
+    </script>
+
+}
