@@ -1,23 +1,28 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc.Rendering;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Http;
 
 public class ProductController : Controller
 {
     private readonly ApplicationDbContext _context;
-
+    
     public ProductController(ApplicationDbContext context)
     {
-        _context = context;
+            _context = context;
     }
 
     public async Task<IActionResult> ProductList()
     {
-        if(ViewBag.Email != "")
+        var SessionValue = HttpContext.Session.GetString("UserEmail");
+        if (SessionValue != null)
         { 
             var products = await _context.Products.Include(p => p.Categories).ToListAsync();
             return View("ProductList", products);
         }
+        
         return RedirectToAction("Account", "Login");
     }
 

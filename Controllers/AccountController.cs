@@ -7,19 +7,15 @@ using Microsoft.EntityFrameworkCore;
 
 public class AccountController : Controller
 {
-    // private readonly SignInManager<ApplicationUser> _signInManager;
+  
     private readonly ApplicationDbContext _context;
-   // public string validatorobject = new LoginViewModelValidator().RuleFor;
+   // public string validatorobject = new LoginViewModelValidator().RuleForEach;
     public AccountController(ApplicationDbContext context)
     {
         _context = context;
        
     }
     
-    //public AccountController(SignInManager<ApplicationUser> signInManager)
-    //{
-    //    _signInManager = signInManager;
-    //}
 
     [HttpGet]
     public IActionResult Login()
@@ -40,7 +36,7 @@ public class AccountController : Controller
                 var passwordcorrect = await _context.loginViewModels.FirstOrDefaultAsync(p=>p.Password == model.Password);
                 if (passwordcorrect != null)
                 {
-                    ViewBag.Email = model.Email;
+                    HttpContext.Session.SetString("UserEmail", model.Email);
                     TempData["Success"] = "Successfully Loggedin";
                     return RedirectToAction("ProductList", "Product");
                 }

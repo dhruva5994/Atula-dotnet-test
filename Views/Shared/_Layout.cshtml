@@ -22,7 +22,7 @@
                     <ul class="navbar-nav flex-grow-1">
                         <li class="nav-item">
                            @*  <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="ProductList">Home</a> *@
-                            @if (!string.IsNullOrEmpty(ViewBag.Email))
+                            @if (ViewContext.HttpContext.Session.GetString("UserEmail") != null)
                             {
                                 // Render the link if ViewBag.Email is not empty
                                 <a class="nav-link text-dark" asp-area="" asp-controller="Product" asp-action="ProductList">Home</a>
@@ -37,7 +37,15 @@
                             <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
                         </li>
                     </ul>
+                    @if (ViewContext.HttpContext.Session.GetString("UserEmail") != null)
+                    {
+                        <span>Welcome, @ViewContext.HttpContext.Session.GetString("UserEmail")</span>
+                        <br />
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Logout</a>
+                    }
+
                 </div>
+                
             </div>
         </nav>
     </header>

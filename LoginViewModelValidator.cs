@@ -8,7 +8,7 @@ public class LoginViewModelValidator : AbstractValidator<LoginViewModel>
     {
         RuleFor(x => x.Email).NotEmpty().EmailAddress();
         RuleFor(x => x.Email).NotEmpty().WithMessage("Please Enter a Email Address");
-             RuleFor(x => x.Password)
+             RuleFor(x => x.Password).Cascade(CascadeMode.Continue)
             .NotEmpty().WithMessage("Password cannot be empty.")
             .MinimumLength(5).WithMessage("Password must be at least 5 characters long.")
             .Matches(@"[A-Z]").WithMessage("Password must contain at least one uppercase letter.")

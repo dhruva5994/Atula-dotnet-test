@@ -20,15 +20,21 @@ namespace PracticalDemo
 
             builder.Services.AddIdentity<ApplicationUser, IdentityRole>().AddEntityFrameworkStores<ApplicationDbContext>();
 
-            // builder.Services.AddControllersWithViews()
-            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginViewModelValidator>());
-
-
+            
             builder.Services.AddControllersWithViews();
-           // builder.Services.AddControllersWithViews()
-            //.AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginViewModelValidator>());
+            builder.Services.AddDistributedMemoryCache();
 
-            //builder.Services.AddTransient<IValidator<LoginViewModel>, LoginViewModelValidator>();
+            builder.Services.AddSession(options =>
+            {
+                options.IdleTimeout = TimeSpan.FromMinutes(5);
+                options.Cookie.HttpOnly = true;
+                options.Cookie.IsEssential = true;
+            });
+
+            // builder.Services.AddControllersWithViews()
+            //       .AddFluentValidation(fv => fv.RegisterValidatorsFromAssemblyContaining<LoginViewModelValidator>());
+
+
             var app = builder.Build();
 
             // Configure the HTTP request pipeline.
@@ -40,7 +46,7 @@ namespace PracticalDemo
 
             app.UseHttpsRedirection();
             app.UseStaticFiles();
-
+            app.UseSession();
             app.UseRouting();
 
             app.UseAuthentication();
